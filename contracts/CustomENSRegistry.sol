@@ -51,14 +51,15 @@ contract CustomENSRegistry {
         emit RecordDeleted(node);
     }
 
-    function updateResolver(bytes32 node, address newResolver) external {
-        Record storage record = records[node];
-        require(record.resolver != address(0), "Record does not exist");
-        require(msg.sender == record.resolver || msg.sender == owner, "Not authorized");
+    // TODO remove this function?
+    // function updateResolver(bytes32 node, address newResolver) external {
+    //     Record storage record = records[node];
+    //     require(record.resolver != address(0), "Record does not exist");
+    //     require(msg.sender == record.resolver || msg.sender == owner, "Not authorized");
 
-        record.resolver = newResolver;
-        emit ResolverUpdated(node, newResolver);
-    }
+    //     record.resolver = newResolver;
+    //     emit ResolverUpdated(node, newResolver);
+    // }
 
     function isRecordExist(bytes32 node) external view returns (bool) {
         return records[node].resolver != address(0);
