@@ -30,7 +30,6 @@ contract CustomENSRegistry {
 
     function setRecord(bytes32 node, bytes32 resolverName, address resolver) external {
         require(node != bytes32(0), "Invalid node");
-        require(isAuthorizedResolver(node, resolver), "Unauthorized resolver");
         require(records[node].resolver == address(0), "Node already registered");
 
         records[node] = Record(resolverName, resolver);

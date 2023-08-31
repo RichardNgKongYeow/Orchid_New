@@ -32,10 +32,11 @@ contract OrchidMaster {
         emit ResolverCreated(address(newResolver), _resolverName, _owner);
     }
 
-    function getResolverInfo(uint256 index) external view returns (ResolverInfo memory) {
-        require(index < resolverList.length, "Index out of bounds");
-        return resolverList[index];
-    }
+    // // TODO delete this? This is the same as the Resolverlist
+    // function getResolverInfo(uint256 index) external view returns (ResolverInfo memory) {
+    //     require(index < resolverList.length, "Index out of bounds");
+    //     return resolverList[index];
+    // }
 
     function getResolverInfoByName(bytes32 _resolverName) external view returns (ResolverInfo memory) {
         uint256 index = resolverNameToIndex[_resolverName];
