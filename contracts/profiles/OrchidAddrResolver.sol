@@ -9,7 +9,7 @@ abstract contract OrchidAddrResolver is OrchidResolverBase{
     event AddressUpdated(bytes32 indexed node, address indexed a);
     event AddressDeleted(bytes32 indexed node);
 
-    function setAddr(bytes32 node, address a) internal onlyOwner nodeExists(node){
+    function setAddr(bytes32 node, address a) external onlyOwner nodeExists(node){
         bytes memory aBytes = addressToBytes(a);
         if (addresses[node].length == 0) {
             addresses[node] = aBytes;

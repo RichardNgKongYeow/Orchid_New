@@ -5,7 +5,6 @@ interface ICustomENSRegistry {
     function setRecord(bytes32 node, bytes32 resolverName, address resolver) external;
     function getRecord(bytes32 node) external view returns (bytes32, address);
     function deleteRecord(bytes32 node) external;
-    function updateResolver(bytes32 node, address newResolver) external;
     function isRecordExist(bytes32 node) external view returns (bool);
     function getResolverAddress(bytes32 node) external view returns (address);
     function getResolverName(bytes32 node) external view returns (bytes32);
