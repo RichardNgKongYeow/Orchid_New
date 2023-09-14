@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.4;
-import "../OrchidResolverBase.sol"; // Import the ICustomENSRegistry interface
+import "../name_addressing/OrchidResolverBase.sol"; // Import the ICustomENSRegistry interface
 
 abstract contract OrchidAddrResolver is OrchidResolverBase{
     mapping(bytes32 => bytes) public addresses;

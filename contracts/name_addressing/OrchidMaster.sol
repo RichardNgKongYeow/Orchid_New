@@ -51,8 +51,8 @@ contract OrchidMaster {
 
 
 import "./ICustomENSRegistry.sol"; // Import the ICustomENSRegistry interface
-import "./profiles/OrchidAddrResolver.sol"; // Import the OrchidAddrResolver
-import "./profiles/OrchidTextResolver.sol"; // Import the OrchidAddrResolver
+import "../profiles/OrchidAddrResolver.sol"; // Import the OrchidAddrResolver
+import "../profiles/OrchidTextResolver.sol"; // Import the OrchidAddrResolver
 
 contract OrchidResolver is 
     OrchidAddrResolver, 

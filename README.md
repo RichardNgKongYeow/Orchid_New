@@ -1,6 +1,9 @@
 # Orchid_New
 
 # Orchid
+> npm install
+> then follow the compile and deploy instructions
+
 
 ## New Project and running it
 > npm init -y
@@ -12,16 +15,16 @@
 > npm i @openzeppelin/contracts
 > npx hardhat run src/backend/scripts/deploy.js --network localhost
 
-
+# Compiling and deploying
 > `npx hardhat compile`
 
 > `npx hardhat run scripts/deploy.js --network`
 
 > `npx hardhat verify --network mumbai 0x2fE6e6f91A641BA361153fcC9AAC2b5707B8ce63`
 
-> `npx hardhat verify --constructor-args arguments.js --network mumbai 0x2152b0f28725F4418E520F42614F39f1726aEaa8`
+> `npx hardhat verify --constructor-args arguments.js --network mumbai 0x7C04167915A19aaDDb25D8666d594Fc2A90D0836`
 
-> `npx hardhat verify --contract contracts/OrchidResolverChild.sol:OrchidResolverChild --constructor-args arguments.js --network mumbai 0x18BAedE26E7722476bf4B120B689b9fA6e27ba9e`
+> `npx hardhat verify --contract contracts/OrchidResolverChild.sol:OrchidResolverChild --constructor-args arguments.js --network mumbai 0xa190cc5e4fbd67a576d8801124be8e92a1d03008`
 
 
 
@@ -97,3 +100,9 @@ grab 0x633849ee92d4fa07790f52200a472cbd0a745b3d7b305ee861e8174479fa0a82
 Resolver1: 0x18BAedE26E7722476bf4B120B689b9fA6e27ba9e
 uob 0x85b0601a4f6c3f0af1bc16587f70f1eb7ddb6c93b763d4c3848206cca8934f3f
 Resolver2: 0x379a48592c613F80C2c14d56Cf446FfEece751F7
+
+# v4
+CustomENSRegistry address: 0xfFC3c162bFdB3a9bF79B6fBB010f859491Eb0e25
+OrchidMaster address: 0x7C04167915A19aaDDb25D8666d594Fc2A90D0836
+grab 0x633849ee92d4fa07790f52200a472cbd0a745b3d7b305ee861e8174479fa0a82
+Resolver1: 0xa190cc5e4fbd67a576d8801124be8e92a1d03008
