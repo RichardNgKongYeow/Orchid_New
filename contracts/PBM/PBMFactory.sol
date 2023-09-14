@@ -11,6 +11,7 @@ contract PBMFactory {
 
     function createPBM(
         uint256 _expiryDate,
+        // TODO change the whitelisteddesitnation as a list of nodes that will call the name_addressing scheme
         address _whitelistedDestination
     ) external {
         PBM pbm = new PBM(_expiryDate, _whitelistedDestination, msg.sender);
