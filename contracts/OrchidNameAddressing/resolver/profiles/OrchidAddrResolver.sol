@@ -1,23 +1,38 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.4;
-import "../name_addressing/OrchidResolverBase.sol"; // Import the ICustomENSRegistry interface
+import "../OrchidResolverBase.sol";
 
-abstract contract OrchidAddrResolver is OrchidResolverBase{
-    mapping(bytes32 => bytes) public addresses;
+abstract contract OrchidAddrResolver is OrchidResolverBase {
+    mapping(bytes32 => bytes) addresses;
+
+    uint public addressCount = 0;
+    mapping(uint => address) allAddress;
+    address[] addressKeys;
 
     event AddressRegistered(bytes32 indexed node, address indexed a);
-    event AddressUpdated(bytes32 indexed node, address indexed a);
+    event AddrChanged(bytes32 indexed node, address indexed a);
     event AddressDeleted(bytes32 indexed node);
 
-    function setAddr(bytes32 node, address a) external onlyOwner nodeExists(node){
+    function setAddr(bytes32 node, address a) public onlyOwner(node) {
         bytes memory aBytes = addressToBytes(a);
+
         if (addresses[node].length == 0) {
             addresses[node] = aBytes;
+            addressKeys.push(a);
+            addressCount++;
             emit AddressRegistered(node, a);
         } else {
             addresses[node] = aBytes;
-            emit AddressUpdated(node, a);
+            emit AddrChanged(node, a);
         }
+
+        if(!nodes[node]) {
+            nodes[node] = true;
+            nodeKeys.push(node);
+        }
+        //allAddress[addressCount] = a;
+        // addressCount++;
+        //records.push(node);
     }
 
     function addr(bytes32 node) public view returns (address payable) {
@@ -27,7 +42,6 @@ abstract contract OrchidAddrResolver is OrchidResolverBase{
         }
         return bytesToAddress(a);
     }
-
 
     function bytesToAddress(bytes memory b) internal pure returns (address payable a) {
         require(b.length == 20);
@@ -43,16 +57,15 @@ abstract contract OrchidAddrResolver is OrchidResolverBase{
         }
     }
 
-    function isAddressMapped(bytes32 hash) public view returns (bool) {
-        return addresses[hash].length > 0;
+    function isAddressMapped(bytes32 node) public view returns (bool) {
+        return addresses[node].length > 0;
     }
 
-    function delAddr(bytes32 node) public onlyOwner {
+    function deleteAddr(bytes32 node) public onlyOwner(node) {
         if (addresses[node].length == 0) {
             revert("No record found");
         }
         delete addresses[node];
         emit AddressDeleted(node);
     }
-
 }
