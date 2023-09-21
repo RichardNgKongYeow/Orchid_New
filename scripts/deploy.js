@@ -3,17 +3,17 @@ const namehash = require('eth-ens-namehash');
 
 async function main() {
   
-    // CustomENSRegistry
-    const CustomENSRegistry = await hre.ethers.deployContract("CustomENSRegistry", ["0xc6a11A6024021580779cb8FFFB5014D3acc82f07"], {
+    // OrchidRegistry
+    const OrchidRegistry = await hre.ethers.deployContract("OrchidRegistry", [], {
         });
 
-        await CustomENSRegistry.waitForDeployment();
+        await OrchidRegistry.waitForDeployment();
 
-        console.log("CustomENSRegistry address:", CustomENSRegistry.target);
+        console.log("OrchidRegistry address:", OrchidRegistry.target);
 
 
     // OrchidMaster
-    const OrchidMaster = await hre.ethers.deployContract("OrchidMaster", ["0xc6a11A6024021580779cb8FFFB5014D3acc82f07"], {
+    const OrchidMaster = await hre.ethers.deployContract("OrchidMaster", ["0xc6a11A6024021580779cb8FFFB5014D3acc82f07",OrchidRegistry.target], {
         });
 
         await OrchidMaster.waitForDeployment();

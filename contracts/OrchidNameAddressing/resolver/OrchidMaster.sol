@@ -40,13 +40,12 @@ contract OrchidMaster {
     }
 
     /**
-     * @notice Create a new orchid resolver
-     * @param _owner Address of the owner of the orchid resolver
-     * @param _resolverName Name of the resolver
-     * @param _registry Add of the Orchid registry
-     */
-    function createResolver(address _owner, string calldata _resolverName, address _registry) external onlyOwner {
-        OrchidResolver newResolver = new OrchidResolver(_owner, _registry);
+    * @notice Create a new orchid resolver
+    * @param _owner Address of the owner of the orchid resolver
+    * @param _resolverName Name of the resolver
+    */
+    function createResolver(address _owner, string calldata _resolverName) external onlyOwner {
+        OrchidResolver newResolver = new OrchidResolver(_owner, registry); // Reuse the registry address
         resolverInfos.push(ResolverInfo(address(newResolver), _resolverName, _owner));
         resolverNameToIndex[_resolverName] = resolverInfos.length - 1;
 
@@ -64,11 +63,6 @@ contract OrchidMaster {
         return id;
     }
 
-    // // TODO delete this? This is the same as the resolvers
-    // function getResolver(uint256 index) external view returns (Resolver memory) {
-    //     require(index < resolvers.length, "Index out of bounds");
-    //     return resolvers[index];
-    // }
 
     function getResolverInfoByName(string calldata _resolverName) external view returns (ResolverInfo memory) {
         uint256 index = resolverNameToIndex[_resolverName];

@@ -22,7 +22,7 @@
 
 > `npx hardhat verify --network mumbai 0x2fE6e6f91A641BA361153fcC9AAC2b5707B8ce63`
 
-> `npx hardhat verify --constructor-args arguments.js --network mumbai 0x7C04167915A19aaDDb25D8666d594Fc2A90D0836`
+> `npx hardhat verify --constructor-args arguments.js --network mumbai 0x929E054f0cF4316A3D21e9A519b3764E04CA7b85`
 
 > `npx hardhat verify --contract contracts/OrchidResolverChild.sol:OrchidResolverChild --constructor-args arguments.js --network mumbai 0xa190cc5e4fbd67a576d8801124be8e92a1d03008`
 
@@ -106,3 +106,7 @@ CustomENSRegistry address: 0xfFC3c162bFdB3a9bF79B6fBB010f859491Eb0e25
 OrchidMaster address: 0x7C04167915A19aaDDb25D8666d594Fc2A90D0836
 grab 0x633849ee92d4fa07790f52200a472cbd0a745b3d7b305ee861e8174479fa0a82
 Resolver1: 0xa190cc5e4fbd67a576d8801124be8e92a1d03008
+
+# v5
+OrchidRegistry address: 0x1E82D212710C3A88dd12620DcE666D24Bd657019
+OrchidMaster address: 0x929E054f0cF4316A3D21e9A519b3764E04CA7b85
