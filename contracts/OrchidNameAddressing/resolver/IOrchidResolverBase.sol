@@ -1,0 +1,8 @@
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.4;
+
+interface IOrchidResolverBase {
+    function setOwner(address _contractOwner) external;
+    function supportsInterface(bytes4 interfaceID) external view returns (bool);
+
+}

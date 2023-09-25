@@ -22,7 +22,7 @@ contract OrchidMaster {
 
     mapping(string => uint256) public resolverNameToIndex;
 
-    event ResolverCreated(address indexed resolverAddress, string indexed resolverName, address indexed owner);
+    event ResolverCreated(string indexed resolverName, address indexed resolverAddress, address indexed owner);
 
     /**
      * 
@@ -51,7 +51,7 @@ contract OrchidMaster {
 
         resolvers[resolverCount] = ResolverInfo(address(newResolver), _resolverName, _owner);
         resolverCount++;
-        emit ResolverCreated(address(newResolver), _resolverName, _owner);
+        emit ResolverCreated(_resolverName, address(newResolver), _owner);
     }
 
     function getAllResolvers() public view returns (ResolverInfo[] memory) {

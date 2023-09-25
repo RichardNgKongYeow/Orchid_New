@@ -71,4 +71,19 @@ contract OrchidResolver is
 
         return (resolverNames, resolverAddresses, resolverTexts);
     }
+
+    function supportsInterface(
+        bytes4 interfaceID
+    )
+        public
+        view
+        override(
+            OrchidAddrResolver,
+            OrchidTextResolver,
+            OrchidNameResolver
+        )
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceID);
+    }
 }

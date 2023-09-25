@@ -2,8 +2,9 @@
 pragma solidity >=0.8.4;
 
 import "../OrchidResolverBase.sol";
+import "./IOrchidTextResolver.sol";
 
-abstract contract OrchidTextResolver is OrchidResolverBase {
+abstract contract OrchidTextResolver is OrchidResolverBase, IOrchidTextResolver{
     mapping(bytes32 => mapping(string => string)) texts;
     //mapping(bytes32 => mapping(string => bool)) keys; // Mapping to track existing keys
     mapping(bytes32 => string[]) textKeys;
@@ -121,5 +122,12 @@ abstract contract OrchidTextResolver is OrchidResolverBase {
         }
 
         return (keys, values);
+    }
+    function supportsInterface(
+        bytes4 interfaceID
+    ) public view virtual override returns (bool) {
+        return
+            interfaceID == type(IOrchidTextResolver).interfaceId ||
+            super.supportsInterface(interfaceID);
     }
 }

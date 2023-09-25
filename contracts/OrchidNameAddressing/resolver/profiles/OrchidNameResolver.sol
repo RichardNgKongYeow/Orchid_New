@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.4;
 import "../OrchidResolverBase.sol";
+import "./IOrchidNameResolver.sol";
 
-abstract contract OrchidNameResolver is OrchidResolverBase {
+abstract contract OrchidNameResolver is OrchidResolverBase, IOrchidNameResolver {
     mapping(bytes32 => string) names;
 
     uint public nameCount = 0;
@@ -42,5 +43,13 @@ abstract contract OrchidNameResolver is OrchidResolverBase {
         bytes32 node
     ) external view returns (string memory) {
         return names[node];
+    }
+
+    function supportsInterface(
+        bytes4 interfaceID
+    ) public view virtual override returns (bool) {
+        return
+            interfaceID == type(IOrchidNameResolver).interfaceId ||
+            super.supportsInterface(interfaceID);
     }
 }

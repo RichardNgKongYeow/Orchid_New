@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.4;
 import "../OrchidResolverBase.sol";
+import "./IOrchidAddrResolver.sol";
 
-abstract contract OrchidAddrResolver is OrchidResolverBase {
+abstract contract OrchidAddrResolver is OrchidResolverBase, IOrchidAddrResolver{
     mapping(bytes32 => bytes) addresses;
 
     uint public addressCount = 0;
@@ -67,5 +68,13 @@ abstract contract OrchidAddrResolver is OrchidResolverBase {
         }
         delete addresses[node];
         emit AddressDeleted(node);
+    }
+
+    function supportsInterface(
+        bytes4 interfaceID
+    ) public view virtual override returns (bool) {
+        return
+            interfaceID == type(IOrchidAddrResolver).interfaceId ||
+            super.supportsInterface(interfaceID);
     }
 }

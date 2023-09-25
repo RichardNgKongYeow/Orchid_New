@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.4;    
 import "hardhat/console.sol";
+import "./IOrchidResolverBase.sol";
 
-abstract contract OrchidResolverBase{
+abstract contract OrchidResolverBase is IOrchidResolverBase{
     address contractOwner;
     bytes32[] nodeKeys;
     mapping (bytes32 => bool) nodes;
@@ -32,8 +33,12 @@ abstract contract OrchidResolverBase{
         emit Transfer(contractOwner);
     }
 
-    // function owner() external view returns (address) {
-
-    // }
+    function supportsInterface(
+        bytes4 interfaceID
+    ) public view virtual override returns (bool) {
+        return
+            interfaceID == type(IOrchidResolverBase).interfaceId ||
+            supportsInterface(interfaceID);
+    }
 }
 
