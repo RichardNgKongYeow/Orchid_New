@@ -5,8 +5,10 @@ import "../registry/OrchidRegistry.sol";
 import "./profiles/OrchidAddrResolver.sol";
 import "./profiles/OrchidTextResolver.sol";
 import "./profiles/OrchidNameResolver.sol";
+import "./Multicallable.sol";
 
 contract OrchidResolver is 
+    Multicallable,
     OrchidAddrResolver, 
     OrchidTextResolver,
     OrchidNameResolver {
@@ -78,6 +80,7 @@ contract OrchidResolver is
         public
         view
         override(
+            Multicallable,
             OrchidAddrResolver,
             OrchidTextResolver,
             OrchidNameResolver
