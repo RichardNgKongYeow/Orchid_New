@@ -2,6 +2,7 @@
 pragma solidity >=0.8.4;
 
 import "../OrchidResolverBase.sol";
+// import "../profiles/OrchidAddrResolver.sol";
 import "./IReverseRegistrar.sol"; // Import the interface here
 
 abstract contract ReverseRegistrar is OrchidResolverBase {
@@ -12,7 +13,7 @@ abstract contract ReverseRegistrar is OrchidResolverBase {
     event ReverseRecordChanged(address indexed a, bytes32 indexed node);
 
     function setNameForAddr(address a, bytes32 node) public onlyOwner(node) {
-        bytes memory aBytes = addressToBytes(a);
+        bytes memory aBytes = OrchidResolverBase.addressToBytes(a);
 
         if (addrToNames[aBytes].length == 0) {
             addrToNames[aBytes] = node;
@@ -25,17 +26,12 @@ abstract contract ReverseRegistrar is OrchidResolverBase {
     }
 
     function node(address a) public view returns (bytes32 node) {
-        bytes memory aBytes = addressToBytes(a);
+        bytes memory aBytes = OrchidResolverBase.addressToBytes(a);
         return addrToNames[aBytes];
     }
 
 
-    function addressToBytes(address a) internal pure returns (bytes memory b) {
-        b = new bytes(20);
-        assembly {
-            mstore(add(b, 32), mul(a, exp(256, 12)))
-        }
-    }
+
     function supportsInterface(
         bytes4 interfaceID
     ) public view virtual override returns (bool) {

@@ -40,5 +40,12 @@ abstract contract OrchidResolverBase is IOrchidResolverBase{
             interfaceID == type(IOrchidResolverBase).interfaceId ||
             supportsInterface(interfaceID);
     }
+
+    function addressToBytes(address a) internal pure returns (bytes memory b) {
+        b = new bytes(20);
+        assembly {
+            mstore(add(b, 32), mul(a, exp(256, 12)))
+        }
+    }
 }
 

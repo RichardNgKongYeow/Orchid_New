@@ -6,9 +6,11 @@ import "./profiles/OrchidAddrResolver.sol";
 import "./profiles/OrchidTextResolver.sol";
 import "./profiles/OrchidNameResolver.sol";
 import "./Multicallable.sol";
+import "./reverseRegistrar/ReverseRegistrar.sol";
 
-contract OrchidResolver is 
+contract OrchidResolver is
     Multicallable,
+    ReverseRegistrar,
     OrchidAddrResolver, 
     OrchidTextResolver,
     OrchidNameResolver {
@@ -19,7 +21,6 @@ contract OrchidResolver is
         string name;
         address nodeAddress;
     }
-
     uint public dataCount = 0;
     mapping (uint => AllData) public allDatas;
 
@@ -80,6 +81,7 @@ contract OrchidResolver is
         public
         view
         override(
+            ReverseRegistrar,
             Multicallable,
             OrchidAddrResolver,
             OrchidTextResolver,
