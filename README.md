@@ -20,9 +20,9 @@
 
 > `npx hardhat run scripts/deploy.js --network`
 
-> `npx hardhat verify --network mumbai 0xA95A0d911732726D8148aB1049BeB7b6046f1b89`
+> `npx hardhat verify --network mumbai 0x57f9C4ae0282bBD5ba99fbd874B941912eAB88aA`
 
-> `npx hardhat verify --constructor-args arguments.js --network mumbai 0x0A3CbFEBa9Cb7749A4BA465dd494E673A9D20233`
+> `npx hardhat verify --constructor-args arguments.js --network mumbai 0x64df72dFb0CB35DE0764398745D4e149c36Ea090`
 
 > `npx hardhat verify --contract contracts/OrchidResolverChild.sol:OrchidResolverChild --constructor-args arguments.js --network mumbai 0xa190cc5e4fbd67a576d8801124be8e92a1d03008`
 
@@ -117,3 +117,9 @@ OrchidRegistry address: 0x0b3c02307CA3db39c9511B34943705938027c83E
 OrchidMaster address: 0xA95A0d911732726D8148aB1049BeB7b6046f1b89
 grab: 0x633849ee92d4fa07790f52200a472cbd0a745b3d7b305ee861e8174479fa0a82
 Resolver1 (owner:0xc6a11A6024021580779cb8FFFB5014D3acc82f07, resolvername: 0x633849ee92d4fa07790f52200a472cbd0a745b3d7b305ee861e8174479fa0a82): 0x0A3CbFEBa9Cb7749A4BA465dd494E673A9D20233
+
+# v7
+OrchidRegistry address: 0x6BDc5D42E5f047a12fA8cf6366CE6414c451f277
+OrchidMaster address: 0x57f9C4ae0282bBD5ba99fbd874B941912eAB88aA
+grab: 0x633849ee92d4fa07790f52200a472cbd0a745b3d7b305ee861e8174479fa0a82
+Resolver1: 0x64df72dFb0CB35DE0764398745D4e149c36Ea090
