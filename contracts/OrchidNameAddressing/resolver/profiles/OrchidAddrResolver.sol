@@ -14,7 +14,7 @@ abstract contract OrchidAddrResolver is OrchidResolverBase, IOrchidAddrResolver{
     event AddrChanged(bytes32 indexed node, address indexed a);
     event AddressDeleted(bytes32 indexed node);
 
-    function setAddr(bytes32 node, address a) public onlyOwner(node) {
+    function setAddr(bytes32 node, address a) public onlyNodeOwner(node) {
         bytes memory aBytes = addressToBytes(a);
 
         if (addresses[node].length == 0) {
@@ -62,7 +62,7 @@ abstract contract OrchidAddrResolver is OrchidResolverBase, IOrchidAddrResolver{
         return addresses[node].length > 0;
     }
 
-    function deleteAddr(bytes32 node) public onlyOwner(node) {
+    function deleteAddr(bytes32 node) public onlyNodeOwner(node) {
         if (addresses[node].length == 0) {
             revert("No record found");
         }

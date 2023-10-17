@@ -27,7 +27,7 @@ abstract contract OrchidTextResolver is OrchidResolverBase, IOrchidTextResolver{
     // function setKey(
     //     bytes32 node,
     //     string calldata key
-    // ) external onlyOwner nodeExists(node) {
+    // ) external onlyNodeOwner nodeExists(node) {
     //     require(bytes(key).length > 0, "Key must not be empty");
     //     require(!keys[node][key], "Key already exists");
         
@@ -46,7 +46,7 @@ abstract contract OrchidTextResolver is OrchidResolverBase, IOrchidTextResolver{
         bytes32 node,
         string calldata key,
         string calldata value
-    ) external onlyOwner(node) {
+    ) external onlyNodeOwner(node) {
         require(bytes(key).length > 0, "Key must not be empty");
 
         if(bytes(texts[node][key]).length == 0) {
@@ -93,7 +93,7 @@ abstract contract OrchidTextResolver is OrchidResolverBase, IOrchidTextResolver{
     function deleteText(
         bytes32 node,
         string calldata key
-    ) external onlyOwner(node) {
+    ) external onlyNodeOwner(node) {
         require(bytes(key).length > 0, "Key must not be empty");
 
         delete texts[node][key];

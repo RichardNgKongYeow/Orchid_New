@@ -22,7 +22,6 @@ contract OrchidResolver is
         string[] additionalFieldsValues;
     }
     uint public dataCount = 0;
-    mapping (uint => AllData) public allDatas;
 
     event RegistryRecordSet(bytes32 indexed node, address indexed resolver, address indexed owner);
     event RegistryRecordDeleted(bytes32 indexed node, address indexed resolver);
@@ -38,7 +37,7 @@ contract OrchidResolver is
         registry = OrchidRegistry(_registry);
     }
 
-    function setAddrAndName(bytes32 node, address a, string calldata name) external onlyOwner(node) {
+    function setAddrAndName(bytes32 node, address a, string calldata name) external onlyNodeOwner(node) {
         bytes32 ZERO_HASH = 0x0000000000000000000000000000000000000000000000000000000000000000;
         bytes32 node2 = keccak256(abi.encodePacked(ZERO_HASH,keccak256(bytes(name))));
         require(node == node2, "Node and namehash.hash(name) is not the same");
@@ -59,12 +58,13 @@ contract OrchidResolver is
                 (keys, values) = getTextKeysAndValues(nodeKeys[i]);
 
                 records[i] = Record({
-                    merchantName: name(nodeKeys[i]),
+                    merchantName: OrchidNameResolver.name(nodeKeys[i]),
                     addr: addr(nodeKeys[i]),
                     additionalFieldsKeys: keys,
                     additionalFieldsValues: values
                 });
             }
+
         }
 
         assembly {

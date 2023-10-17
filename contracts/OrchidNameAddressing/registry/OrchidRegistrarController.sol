@@ -3,9 +3,9 @@ pragma solidity >=0.8.4;
 
 import "../reverseRegistrar/ReverseRegistrar.sol"; 
 import "./OrchidRegistry.sol";
-import "@openzeppelin/contracts/access/Ownable.sol"; // Import Ownable
 
-contract OrchidRegistrarController is Ownable{
+
+contract OrchidRegistrarController{
     OrchidRegistry public registry;
     ReverseRegistrar public reverseRegistrar;
     address public controllerOwner;
@@ -20,13 +20,17 @@ contract OrchidRegistrarController is Ownable{
         controllerOwner = _controllerOwner;
     }
 
+    modifier onlyControllerOwner() {
+        require(msg.sender == controllerOwner, "Only the PBM owner can call this function");
+        _;
+    }
 
     function _setReverseRecord(bytes32 node, address resolver, address a) internal {
         reverseRegistrar.setNameForAddr(a, node);
         reverseRegistrar.setResolverForAddr(a, resolver);
     }
 
-    function register(bytes32 node, address owner, address resolver, uint64 ttl, address a) public onlyOwner {
+    function register(bytes32 node, address owner, address resolver, uint64 ttl, address a) public onlyControllerOwner {
         registry.setRecord(node, owner, resolver, ttl);
         _setReverseRecord(node, resolver, a);
     }

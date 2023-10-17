@@ -197,7 +197,7 @@ contract PBM is ERC1155, Ownable, Pausable, IPBM, PBMConditions {
     ) public override(ERC1155, IPBM) whenNotPaused {
         _validateTransfer(from, to);
 
-        if (IPBMAddressList(pbmAddressList).isMerchant(to) && pbmConditions.isTextConditionMet(key, value)) {
+        if (pbmConditions.isTextConditionMet(key, value)) {
             uint256 valueOfTokens = amount * (PBMTokenManager(pbmTokenManager).getTokenValue(id));
 
             // burn and transfer underlying ERC-20
@@ -239,7 +239,7 @@ contract PBM is ERC1155, Ownable, Pausable, IPBM, PBMConditions {
         _validateTransfer(from, to);
         require(ids.length == amounts.length, "Unequal ids and amounts supplied");
 
-        if (IPBMAddressList(pbmAddressList).isMerchant(to) && pbmConditions.isTextConditionMet(key, value)) {
+        if (pbmConditions.isTextConditionMet(key, value)) {
             uint256 sumOfTokens = 0;
             for (uint256 i = 0; i < ids.length; i++) {
                 uint256 tokenId = ids[i];

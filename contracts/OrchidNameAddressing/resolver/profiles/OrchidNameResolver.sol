@@ -20,7 +20,7 @@ abstract contract OrchidNameResolver is OrchidResolverBase, IOrchidNameResolver 
     function setName(
         bytes32 node,
         string calldata newName
-    ) public onlyOwner(node) {
+    ) public onlyNodeOwner(node) {
         names[node] = newName;
         // allNames[nameCount] = newName;
         // nodes[nameCount] = node;

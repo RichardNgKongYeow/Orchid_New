@@ -12,7 +12,7 @@ abstract contract OrchidResolverBase is IOrchidResolverBase{
 
     function isOwner(bytes32 node) internal view virtual returns (bool);
 
-    modifier onlyOwner(bytes32 node) {
+    modifier onlyNodeOwner(bytes32 node) {
         require(isOwner(node), "Only owner can call this function");
         _;
     }
