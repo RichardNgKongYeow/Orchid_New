@@ -58,7 +58,7 @@ contract OrchidResolver is
                 (keys, values) = getTextKeysAndValues(nodeKeys[i]);
 
                 records[i] = Record({
-                    merchantName: OrchidNameResolver.name(nodeKeys[i]),
+                    merchantName: name(nodeKeys[i]),
                     addr: addr(nodeKeys[i]),
                     additionalFieldsKeys: keys,
                     additionalFieldsValues: values

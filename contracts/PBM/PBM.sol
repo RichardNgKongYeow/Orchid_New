@@ -7,7 +7,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 
-import "../PBMConditions/PBMConditions.sol";
 import "./ERC20Helper.sol";
 import "./PBMTokenManager.sol";
 import "./IPBM.sol";
@@ -15,8 +14,7 @@ import "./IPBMAddressList.sol";
 import "./IHeroNFT.sol";
 import "./ISwap.sol";
 
-contract PBM is ERC1155, Ownable, Pausable, IPBM, PBMConditions {
-    PBMConditions public pbmConditions;
+contract PBM is ERC1155, Ownable, Pausable, IPBM {
     // undelrying ERC-20 tokens
     address public spotToken = address(0);
     address public xsgdToken = address(0);
@@ -35,9 +33,8 @@ contract PBM is ERC1155, Ownable, Pausable, IPBM, PBMConditions {
     // time of expiry ( epoch )
     uint256 public contractExpiry;
 
-    constructor(address _pbmConditionsAddress) ERC1155("") {
+    constructor() ERC1155("") {
         pbmTokenManager = address(new PBMTokenManager());
-        pbmConditions = PBMConditions(_pbmConditionsAddress);
     }
 
     function initialise(
@@ -115,7 +112,6 @@ contract PBM is ERC1155, Ownable, Pausable, IPBM, PBMConditions {
      * - receiver should not be blacklisted
      */
     function mint(uint256 tokenId, uint256 amount, address receiver) external override whenNotPaused {
-        // TODO add in require statement here for MCC
         require(!IPBMAddressList(pbmAddressList).isBlacklisted(receiver), "PBM: 'to' address blacklisted");
         uint256 valueOfNewTokens = amount * (PBMTokenManager(pbmTokenManager).getTokenValue(tokenId));
 
@@ -191,13 +187,11 @@ contract PBM is ERC1155, Ownable, Pausable, IPBM, PBMConditions {
         address to,
         uint256 id,
         uint256 amount,
-        bytes memory data,
-        string calldata key,
-        string calldata value
+        bytes memory data
     ) public override(ERC1155, IPBM) whenNotPaused {
         _validateTransfer(from, to);
 
-        if (IPBMAddressList(pbmAddressList).isMerchant(to) && pbmConditions.isTextConditionMet(key, value)) {
+        if (IPBMAddressList(pbmAddressList).isMerchant(to)) {
             uint256 valueOfTokens = amount * (PBMTokenManager(pbmTokenManager).getTokenValue(id));
 
             // burn and transfer underlying ERC-20
@@ -232,14 +226,12 @@ contract PBM is ERC1155, Ownable, Pausable, IPBM, PBMConditions {
         address to,
         uint256[] memory ids,
         uint256[] memory amounts,
-        bytes memory data,
-        string calldata key,
-        string calldata value
+        bytes memory data
     ) public override(ERC1155, IPBM) whenNotPaused {
         _validateTransfer(from, to);
         require(ids.length == amounts.length, "Unequal ids and amounts supplied");
 
-        if (IPBMAddressList(pbmAddressList).isMerchant(to) && pbmConditions.isTextConditionMet(key, value)) {
+        if (IPBMAddressList(pbmAddressList).isMerchant(to)) {
             uint256 sumOfTokens = 0;
             for (uint256 i = 0; i < ids.length; i++) {
                 uint256 tokenId = ids[i];
