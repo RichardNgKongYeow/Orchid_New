@@ -27,10 +27,6 @@ contract OrchidResolver is
     event RegistryRecordDeleted(bytes32 indexed node, address indexed resolver);
     event RegistryRecordUpdated(bytes32 indexed node, address indexed resolver, address indexed newOwner);
 
-    function isOwner(bytes32 node) internal view override returns (bool) {
-        address nodeOwner = registry.owner(node);
-        return msg.sender == contractOwner || msg.sender == nodeOwner;
-    }
     
     constructor(address _contractOwner, address _registry) {
         contractOwner = _contractOwner;

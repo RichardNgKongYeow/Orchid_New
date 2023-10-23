@@ -3,9 +3,10 @@ pragma solidity >=0.8.4;
 
 import "../reverseRegistrar/ReverseRegistrar.sol"; 
 import "./OrchidRegistry.sol";
+import "../resolver/OrchidResolverBase.sol";
 
 
-contract OrchidRegistrarController{
+contract OrchidRegistrarController is OrchidResolverBase{
     OrchidRegistry public registry;
     ReverseRegistrar public reverseRegistrar;
     address public controllerOwner;
@@ -33,6 +34,7 @@ contract OrchidRegistrarController{
     function register(bytes32 node, address owner, address resolver, uint64 ttl, address a) public onlyControllerOwner {
         registry.setRecord(node, owner, resolver, ttl);
         _setReverseRecord(node, resolver, a);
+        nodeOwners[node] = owner;
     }
 
     function getReverseRecord(address addr) public view returns (bytes32) {

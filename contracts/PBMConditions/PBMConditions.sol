@@ -22,6 +22,11 @@ abstract contract PBMConditions is OrchidRegistrarController, OrchidTextResolver
         resolver = getResolverForAddress(addr);
     }
 
+    // Override the supportsInterface function to choose the base implementation
+    function supportsInterface(bytes4 interfaceID) public view virtual override(OrchidResolverBase,OrchidTextResolver) returns (bool) {
+        return super.supportsInterface(interfaceID); // Use the implementation from OrchidResolverBase or other base contract
+    }
+
     function checkTextValueConditionFromAddr(address addr, string calldata key) public view returns (bool) {
         (bytes32 node, address _orchidResolverAddress) = getNodeAndResolver(addr);
         OrchidResolver orchidResolver = OrchidResolver(_orchidResolverAddress);
