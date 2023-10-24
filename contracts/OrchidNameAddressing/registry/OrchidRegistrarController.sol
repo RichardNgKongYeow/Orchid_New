@@ -13,29 +13,25 @@ contract OrchidRegistrarController is OrchidResolverBase{
 
     constructor(
         address _registryAddress,
-        address _reverseRegistrarAddress,
-        address _controllerOwner
+        address _reverseRegistrarAddress
 
     ) {
         registry = OrchidRegistry(_registryAddress);
         reverseRegistrar = ReverseRegistrar(_reverseRegistrarAddress);
-        controllerOwner = _controllerOwner;
-    }
 
-    modifier onlyControllerOwner() {
-        require(msg.sender == controllerOwner, "Only the PBM owner can call this function");
-        _;
-    }
-
-    function _setReverseRecord(bytes32 node, address resolver, address a) internal {
-        reverseRegistrar.setNameForAddr(a, node);
-        reverseRegistrar.setResolverForAddr(a, resolver);
     }
 
 
-    function register(bytes32 node, address owner, address resolver, uint64 ttl, address a) public onlyControllerOwner {
+
+    function _setReverseRecord(bytes32 node, address owner, address resolver) internal {
+        reverseRegistrar.setNameForAddr(owner, node);
+        reverseRegistrar.setResolverForAddr(owner, resolver);
+    }
+
+
+    function register(bytes32 node, address owner, address resolver, uint64 ttl) public {
         registry.setRecord(node, owner, resolver, ttl);
-        _setReverseRecord(node, resolver, a);
+        _setReverseRecord(node, owner, resolver);
         nodeOwners[node] = owner;
     }
 

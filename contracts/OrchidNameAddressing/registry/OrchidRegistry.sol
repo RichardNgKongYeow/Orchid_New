@@ -2,7 +2,7 @@
 pragma solidity >=0.8.4;
 
 
-contract OrchidRegistry {
+contract OrchidRegistry{
     address contractOwner;
 
     struct Record {

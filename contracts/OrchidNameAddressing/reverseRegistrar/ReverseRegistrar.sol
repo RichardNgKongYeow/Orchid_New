@@ -2,10 +2,10 @@
 pragma solidity >=0.8.4;
 
 import "./IReverseRegistrar.sol"; // Import the interface here
-import "@openzeppelin/contracts/access/Ownable.sol"; // Import Ownable
+import "../root/Controllable.sol";
 
-contract ReverseRegistrar is Ownable{
-    address contractOwner;
+contract ReverseRegistrar is Controllable{
+    address orchidRegistry;
     mapping(bytes => bytes32) public addrToNames;
     uint public addrToNamesCount = 0;
     mapping(bytes => address) public addrToResolver; // New mapping to store resolver addresses
@@ -13,12 +13,18 @@ contract ReverseRegistrar is Ownable{
     event ReverseRecordSet(address indexed a, bytes32 indexed node);
     event ReverseRecordChanged(address indexed a, bytes32 indexed node);
 
-    constructor(address _contractOwner) {
-        contractOwner = _contractOwner;
+    constructor(address _orchidRegistry) {
+        orchidRegistry = _orchidRegistry;
     }
 
+    modifier authorised(address addr) {
+        require( addr == msg.sender || controllers[msg.sender], 
+            "ReverseRegistrar: Caller is not a controller or authorised by address or the address itself"
+        );
+        _;
+    }
 
-    function setNameForAddr(address a, bytes32 node) external onlyOwner {
+    function setNameForAddr(address a, bytes32 node) external authorised(a) {
         bytes memory aBytes = addressToBytes(a);
 
         if (addrToNames[aBytes].length == 0) {
@@ -36,7 +42,7 @@ contract ReverseRegistrar is Ownable{
         return addrToNames[aBytes];
     }
 
-    function setResolverForAddr(address a, address resolver) external onlyOwner {
+    function setResolverForAddr(address a, address resolver) external authorised(a) {
         bytes memory aBytes = addressToBytes(a);
         addrToResolver[aBytes] = resolver;
     }
