@@ -1,15 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.4;
 
-import "./IOrchidRegistry.sol";
-import "hardhat/console.sol";
 
-/**
- * This contract reference Ethereum Name Service as base. It implements similar
- * 2-tier structure to achieve name to address mapping.
- */
-
-// contract OrchidRegistry is IOrchidRegistry {
 contract OrchidRegistry {
     address contractOwner;
 
@@ -52,18 +44,27 @@ contract OrchidRegistry {
         address resolver,
         uint64 ttl
     ) public authorised(node) {
-
-        if (owner != records[node].owner) {
+        setNodeOwner(node, owner);
+        setResolver(node, resolver);
+    }
+    
+    function setNodeOwner(bytes32 node, address owner) internal authorised(node){
+        if (records[node].owner == address(0x0)) {
             records[node].owner = owner;
             recordKeys.push(node);
+        } else {
+            records[node].owner = owner;
             emit Transfer(node, owner);
         }
+    }
 
+    function setResolver(bytes32 node, address resolver) internal {
         if (resolver != records[node].resolver) {
             records[node].resolver = resolver;
             emit NewResolver(node, resolver);
         }
     }
+
     function getRecord(bytes32 node) external view returns (address, address) {
         return (records[node].owner, records[node].resolver);
     }

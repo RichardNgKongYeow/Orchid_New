@@ -15,6 +15,7 @@ contract OrchidRegistrarController is OrchidResolverBase{
         address _registryAddress,
         address _reverseRegistrarAddress,
         address _controllerOwner
+
     ) {
         registry = OrchidRegistry(_registryAddress);
         reverseRegistrar = ReverseRegistrar(_reverseRegistrarAddress);
@@ -30,6 +31,7 @@ contract OrchidRegistrarController is OrchidResolverBase{
         reverseRegistrar.setNameForAddr(a, node);
         reverseRegistrar.setResolverForAddr(a, resolver);
     }
+
 
     function register(bytes32 node, address owner, address resolver, uint64 ttl, address a) public onlyControllerOwner {
         registry.setRecord(node, owner, resolver, ttl);
