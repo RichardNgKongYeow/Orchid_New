@@ -1,76 +1,55 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-
-
+pragma solidity >=0.8.4;
 
 abstract contract TextConditions {
-    mapping(string => mapping(string => bool)) private textConditions;
-    string[] private conditionKeys;
-    mapping(string => string[]) private conditions;
-    address public _PBMOwner;
-    address public _PBMContractAddr;
+    address public PBMOwner;
+    address public PBMContractAddr;
+    string public condition;
 
-    event TextConditionSet(string indexed key, string indexed value, bool condition);
-    event TextConditionRemoved(string indexed key, string indexed value);
+    event TextConditionSet(string value, bool isSet);
+    event PBMContractSet(address contractAddress);
+
+    mapping(string => bool) public textConditions;
+    string[] public allConditionValues;
+
 
     modifier onlyPBMOwner() {
-        require(msg.sender == _PBMOwner ||
-        msg.sender == _PBMContractAddr, "Only the PBM owner can call this function");
+        require(msg.sender == PBMOwner || msg.sender == PBMContractAddr, "Only the PBM owner can call this function");
         _;
     }
-    
-    // Function to set the _PBMContract address
-    function setPBMContract(address _newPBMContractAddr) public onlyPBMOwner {
-        _PBMContractAddr = _newPBMContractAddr;
+
+    function setPBMContract(address contractAddress) public onlyPBMOwner {
+        PBMContractAddr = contractAddress;
+        emit PBMContractSet(contractAddress);
     }
 
-
-    // Function to set a text condition
-    function setTextCondition(string memory key, string memory value) public onlyPBMOwner {
-        textConditions[key][value] = true;
-        conditions[key].push(value);
-        if (!contains(conditionKeys, key)) {
-            conditionKeys.push(key);
-        }
-        emit TextConditionSet(key, value, true);
+    function setTextCondition(string memory value, bool isSet) public onlyPBMOwner {
+        textConditions[value] = isSet;
+        allConditionValues.push(value);
+        emit TextConditionSet(value, isSet);
     }
 
-    // Function to remove a text condition
-    function removeTextCondition(string memory key, string memory value) public onlyPBMOwner {
-        require(textConditions[key][value], "Text condition does not exist");
-        delete textConditions[key][value];
-        emit TextConditionRemoved(key, value);
-    }
-
-    // Function to check if a text condition is met
-    function isTextConditionMet(string memory key, string memory value) public view returns (bool) {
-        if (textConditions[key][value]) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // Function to get all condition keys
-    function getAllConditionKeys() public view returns (string[] memory) {
-        return conditionKeys;
-    }
-
-    // Function to get all conditions for a specific key
-    function getAllConditionsForKey(string memory key) public view returns (string[] memory) {
-        return conditions[key];
-    }
-
-    // Helper function to check if an array contains a specific value
-    function contains(string[] storage array, string memory value) internal view returns (bool) {
-        for (uint256 i = 0; i < array.length; i++) {
-            if (keccak256(abi.encodePacked(array[i])) == keccak256(abi.encodePacked(value))) {
-                return true;
+    function removeTextCondition(string memory value) public onlyPBMOwner {
+        delete textConditions[value];
+        for (uint256 i = 0; i < allConditionValues.length; i++) {
+            if (keccak256(abi.encodePacked(allConditionValues[i])) == keccak256(abi.encodePacked(value))) {
+                allConditionValues[i] = allConditionValues[allConditionValues.length - 1];
+                allConditionValues.pop();
+                break;
             }
         }
-        return false;
     }
 
+    function isTextConditionMet(string memory value) public view returns (bool) {
+        return textConditions[value];
+    }
+
+    function getAllConditionValues() public view returns (string[] memory) {
+        return allConditionValues;
+    }
+
+    function getCondition() public view returns (string memory) {
+        return condition;
+    }
 
 }

@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 
+import "../PBMConditions/PBMConditions.sol";
 import "./ERC20Helper.sol";
 import "./PBMTokenManager.sol";
 import "./IPBM.sol";
@@ -32,9 +33,12 @@ contract PBM is ERC1155, Ownable, Pausable, IPBM {
     bool internal initialised = false;
     // time of expiry ( epoch )
     uint256 public contractExpiry;
+    address public pbmConditionsAddr;
+    PBMConditions pbmConditions;
 
-    constructor() ERC1155("") {
+    constructor(address pbmConditionsAddr) ERC1155("") {
         pbmTokenManager = address(new PBMTokenManager());
+        pbmConditions = PBMConditions(pbmConditionsAddr);
     }
 
     function initialise(
@@ -191,7 +195,7 @@ contract PBM is ERC1155, Ownable, Pausable, IPBM {
     ) public override(ERC1155, IPBM) whenNotPaused {
         _validateTransfer(from, to);
 
-        if (IPBMAddressList(pbmAddressList).isMerchant(to)) {
+        if (pbmConditions.checkTextValueConditionFromAddr(to)) {
             uint256 valueOfTokens = amount * (PBMTokenManager(pbmTokenManager).getTokenValue(id));
 
             // burn and transfer underlying ERC-20
@@ -231,7 +235,7 @@ contract PBM is ERC1155, Ownable, Pausable, IPBM {
         _validateTransfer(from, to);
         require(ids.length == amounts.length, "Unequal ids and amounts supplied");
 
-        if (IPBMAddressList(pbmAddressList).isMerchant(to)) {
+        if (pbmConditions.checkTextValueConditionFromAddr(to)) {
             uint256 sumOfTokens = 0;
             for (uint256 i = 0; i < ids.length; i++) {
                 uint256 tokenId = ids[i];
