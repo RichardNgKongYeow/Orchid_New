@@ -2,10 +2,9 @@
 pragma solidity >=0.8.4;
 
 /**
- * This contract reference Ethereum Name Service as base. It implements similar
- * 2-tier structure to achieve name to address mapping.
+ * @title Orchid Registry Interface
+ * @dev This interface represents the Orchid Registry contract, which implements a name to address mapping system.
  */
-
 interface IOrchidRegistry {
     
     /**
@@ -15,10 +14,14 @@ interface IOrchidRegistry {
      */
     event Transfer(bytes32 indexed node, address owner);
 
-    // Logged when the owner of a node assigns a new owner to a subnode.
+    /**
+     * @dev Emitted when the owner of a node assigns a new owner to a subnode.
+     * @param node The node for which ownership is being transferred.
+     * @param label The label (subnode) for which ownership is being assigned.
+     * @param owner The address of the new owner.
+     */
     event NewOwner(bytes32 indexed node, bytes32 indexed label, address owner);
 
-    // Logged when the resolver for a node changes.
     /**
      * @dev Emitted when the resolver associated with a node is updated.
      * @param node The node for which the resolver is being changed.
@@ -45,7 +48,7 @@ interface IOrchidRegistry {
      * @param resolver The address of the resolver contract for the node.
      * @param ttl The time-to-live (TTL) value for the node's record.
      * This function is used to update the ownership, resolver, and TTL of a node's record.
-    */
+     */
     function setRecord(
         bytes32 node,
         address owner,
@@ -107,15 +110,15 @@ interface IOrchidRegistry {
     ) external view returns (bool);
 
     /**
-     * @notice Retrieves all the resolver contract address in the registry.
-     * @return The address of all the resolver contracts in the registry.
+     * @notice Retrieves the addresses of all resolver contracts in the registry.
+     * @return An array of addresses representing all resolver contracts in the registry.
      */
     function getAllResolvers() external view returns (address[] memory);
 
     /**
      * @notice Retrieves all nodes and their corresponding resolver contract addresses from the registry.
      * @return nodeResult An array of nodes in the requested page.
-     * @return resolverResult An array of resolver contract addressses corresponding to the nodes in the requested page.
+     * @return resolverResult An array of resolver contract addresses corresponding to the nodes in the requested page.
      */
     function getAllNodesAndResolvers() external view returns (bytes32[] memory nodeResult, address[] memory resolverResult);
 
@@ -123,6 +126,7 @@ interface IOrchidRegistry {
      * @notice Register a name, or change the owner of an existing registration.
      * @param label The hash of the label to register.
      * @param owner The address of the new owner.
+     * @return The new node created or modified.
      */
     function register(bytes32 label, address owner) external returns (bytes32);
 }

@@ -28,6 +28,6 @@ interface IOrchidAddrResolver {
      * @param node The ENS node to delete the mapping for.
      */
     function deleteAddr(bytes32 node) external;
-
-    // You can add additional functions here if needed
+    
+    // Additional functions can be added here if needed to reflect changes in the contract
 }

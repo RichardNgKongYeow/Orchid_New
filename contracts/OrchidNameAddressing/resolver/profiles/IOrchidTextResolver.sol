@@ -32,4 +32,6 @@ interface IOrchidTextResolver {
      * @return values An array of text data values corresponding to the keys.
      */
     function getTextKeysAndValues(bytes32 node) external view returns (string[] memory keys, string[] memory values);
+
+    // Additional functions can be added here if needed to reflect changes in the contract
 }

@@ -5,7 +5,7 @@ import "./IReverseRegistrar.sol"; // Import the interface here
 import "../root/Controllable.sol";
 
 contract ReverseRegistrar is Controllable{
-    address orchidRegistry;
+    address controllerOwner;
     mapping(bytes => bytes32) public addrToNames;
     uint public addrToNamesCount = 0;
     mapping(bytes => address) public addrToResolver; // New mapping to store resolver addresses
@@ -13,15 +13,19 @@ contract ReverseRegistrar is Controllable{
     event ReverseRecordSet(address indexed a, bytes32 indexed node);
     event ReverseRecordChanged(address indexed a, bytes32 indexed node);
 
-    constructor(address _orchidRegistry) {
-        orchidRegistry = _orchidRegistry;
+    constructor(address _controllerOwner) {
+        controllerOwner = _controllerOwner;
     }
 
     modifier authorised(address addr) {
-        require( addr == msg.sender || controllers[msg.sender], 
+        require( addr == msg.sender || addr == tx.origin || controllers[msg.sender] == true,
             "ReverseRegistrar: Caller is not a controller or authorised by address or the address itself"
         );
         _;
+    }
+
+    function addOrchidRegistrarControllerAdd(address _orchidRegistrarController) public onlyController {
+        setController(_orchidRegistrarController, true);
     }
 
     function setNameForAddr(address a, bytes32 node) external authorised(a) {

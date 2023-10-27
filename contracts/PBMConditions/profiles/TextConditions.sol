@@ -9,14 +9,23 @@ abstract contract TextConditions {
     string[] private conditionKeys;
     mapping(string => string[]) private conditions;
     address public _PBMOwner;
+    address public _PBMContractAddr;
 
     event TextConditionSet(string indexed key, string indexed value, bool condition);
     event TextConditionRemoved(string indexed key, string indexed value);
 
     modifier onlyPBMOwner() {
-        require(msg.sender == _PBMOwner, "Only the PBM owner can call this function");
+        require(msg.sender == _PBMOwner ||
+        msg.sender == _PBMContractAddr, "Only the PBM owner can call this function");
         _;
     }
+    
+    // Function to set the _PBMContract address
+    function setPBMContract(address _newPBMContractAddr) public onlyPBMOwner {
+        _PBMContractAddr = _newPBMContractAddr;
+    }
+
+
     // Function to set a text condition
     function setTextCondition(string memory key, string memory value) public onlyPBMOwner {
         textConditions[key][value] = true;

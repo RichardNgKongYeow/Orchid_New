@@ -7,7 +7,7 @@ _name_uob = "uob"
 console.log(_name_uob, namehash.hash(_name_uob))
 
 
-_SGQR1 = "20190519F46DA1"
+_SGQR1 = "20190519f46da1"
 console.log(_SGQR1, namehash.hash(_SGQR1))
 
 _SGQR2 = "20210521DF2A19"

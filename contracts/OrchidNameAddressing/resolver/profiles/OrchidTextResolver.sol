@@ -24,16 +24,6 @@ abstract contract OrchidTextResolver is OrchidResolverBase, IOrchidTextResolver{
     //  * @param node The node to update.
     //  * @param key The key to set.
     //  */
-    // function setKey(
-    //     bytes32 node,
-    //     string calldata key
-    // ) external onlyNodeOwner nodeExists(node) {
-    //     require(bytes(key).length > 0, "Key must not be empty");
-    //     require(!keys[node][key], "Key already exists");
-        
-    //     keys[node][key] = true;
-    //     emit KeySet(node, key);
-    // }
 
     /**
      * @notice Sets the text data associated with an ENS node and key.
@@ -46,7 +36,7 @@ abstract contract OrchidTextResolver is OrchidResolverBase, IOrchidTextResolver{
         bytes32 node,
         string calldata key,
         string calldata value
-    ) external onlyNodeOwner(node) {
+    ) external authorised(node) {
         require(bytes(key).length > 0, "Key must not be empty");
 
         if(bytes(texts[node][key]).length == 0) {
@@ -93,7 +83,7 @@ abstract contract OrchidTextResolver is OrchidResolverBase, IOrchidTextResolver{
     function deleteText(
         bytes32 node,
         string calldata key
-    ) external onlyNodeOwner(node) {
+    ) external authorised(node) {
         require(bytes(key).length > 0, "Key must not be empty");
 
         delete texts[node][key];

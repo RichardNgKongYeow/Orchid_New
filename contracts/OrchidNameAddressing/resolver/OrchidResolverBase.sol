@@ -19,8 +19,10 @@ abstract contract OrchidResolverBase is IOrchidResolverBase {
         return owner == msg.sender;
     }
 
-    modifier onlyNodeOwner(bytes32 node) {
-        require(isNodeOwner(node), "Only owner can call this function");
+    modifier authorised(bytes32 node) {
+        require(isNodeOwner(node) || msg.sender == contractOwner 
+        || tx.origin == nodeOwners[node] 
+        || nodeOwners[node] == address(0x0), "Only authorised can call this resolver function");
         _;
     }
 

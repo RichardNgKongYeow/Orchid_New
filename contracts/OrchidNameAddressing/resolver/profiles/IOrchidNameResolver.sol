@@ -16,5 +16,5 @@ interface IOrchidNameResolver {
      */
     function name(bytes32 node) external view returns (string memory);
 
-    // You can add additional functions here if needed
+    // Additional functions can be added here if needed to reflect changes in the contract
 }

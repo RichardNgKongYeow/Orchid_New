@@ -30,10 +30,11 @@ contract OrchidResolver is
     
     constructor(address _contractOwner, address _registry) {
         contractOwner = _contractOwner;
+        // TODO not really needed? object not really used anywhere
         registry = OrchidRegistry(_registry);
     }
 
-    function setAddrAndName(bytes32 node, address a, string calldata name) external onlyNodeOwner(node) {
+    function setAddrAndName(bytes32 node, address a, string calldata name) external authorised(node) {
         bytes32 ZERO_HASH = 0x0000000000000000000000000000000000000000000000000000000000000000;
         bytes32 node2 = keccak256(abi.encodePacked(ZERO_HASH,keccak256(bytes(name))));
         require(node == node2, "Node and namehash.hash(name) is not the same");
